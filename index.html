@@ -8,20 +8,167 @@
     <script>
 
       $(document).ready(function(){
+        
         var $body = $('body');
-        $body.html('');
+        var $streamDiv = $("<div></div>");
+        var $userStreamDiv = $("<div></div>");
+        var $homeIcon = $("<div></div>");
+        var $topHomeBox = $("<div></div>");
+        var $mainStream = $("<div></div>");
 
+        $streamDiv.html('');
+        $userStreamDiv.html('');
+        $homeIcon.html('');
+        $topHomeBox.html('');
+        $mainStream.html('');
+
+        $body.css('font-family', '"Arial", helvetica, sans-serif');
+
+
+        $streamDiv.css("vertical-align", "center");
+        $streamDiv.css("float", "left");
+        $streamDiv.css("width", "66%");
+        $streamDiv.css("margin-left", "11%");
+      
+        $homeIcon.append('<img src = "pigeon2.png" id = "pigeon" width="100%" height="100%"/>');
+
+        $homeIcon.css("background-color", "white");
+        $homeIcon.css("width", "3%");
+        $homeIcon.css("min-width", "45px");
+        $homeIcon.css("float", "left");
+        $homeIcon.css("margin", "1% 0 0 8%");
+
+        $topHomeBox.css("height", "10%");
+        $topHomeBox.css("border-style", "ridge");
+        $topHomeBox.text("Home");
+        $topHomeBox.css("font-size", "30px");
+        $topHomeBox.css("font-style", "italic");
+        $topHomeBox.css("font-weight", "bold");
+        $topHomeBox.css("padding", "2% 0 2% 5%");
+        
+        
+        
+        $homeIcon.appendTo($body);
+        $topHomeBox.appendTo($streamDiv);
+        $topHomeBox.click(function() {
+          location.reload();
+        });
+        $streamDiv.appendTo($body);
+        $userStreamDiv.appendTo($streamDiv);
+        $userStreamDiv.hide();
+        $mainStream.appendTo($streamDiv);
+        
         var index = streams.home.length - 1;
         while(index >= 0){
+          var today = new Date();
+          var minutes = today.getMinutes();
+          if(minutes < 10) {
+            minutes = '0' + minutes.toString();
+          }
+          var time = today.getHours().toString() + ":" + minutes; 
+
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
+          var currentUser = tweet.user;
+          var $tweetBox = $("<div></div>")
+          var $tweetUser = $('<div id = "user"></div>');
+          var $tweetMessage = $("<div></div>");
+          var $tweetTime = $("<div></div>");
+
+          $tweetUser.text('@' + tweet.user);
+          $tweetUser.appendTo($tweetBox);
+          $tweetUser.css("float", "left");
+          $tweetUser.addClass(tweet.user.toString());
+          $tweetUser.css("font-weight", "bold");
+          $tweetUser.css("margin-right", "40px");
+          $tweetUser.css("margin-bottom", "15px");
+          $tweetUser.css("margin-left", "15px");
+          $tweetUser.css("padding-top", "1%");
+          //$tweetUser.css("border", "ridge");
+          
+          $tweetUser.click(function() {
+
+            $mainStream.hide();
+            $userStreamDiv.show();
+
+            var index = streams.home.length - 1;
+              while(index >= 0){
+              var today = new Date();
+              var minutes = today.getMinutes();
+              if(minutes < 10) {
+                minutes = '0' + minutes.toString();
+              }
+              var time = today.getHours().toString() + ":" + minutes;
+
+              var tweet = streams.home[index];
+              //var currentUserr = tweet.user;
+              var $tweetBox = $("<div></div>")
+              var $currentUser = $("<div></div>");
+              var $tweetMessage = $("<div></div>");
+              var $tweetTime = $("<div></div>");
+
+              $currentUser.text('@' + currentUser);
+              $currentUser.appendTo($tweetBox);
+              $currentUser.css("float", "left");
+              $currentUser.css("font-weight", "bold");
+              $currentUser.css("margin-right", "40px");
+              $currentUser.css("margin-bottom", "15px");
+              $currentUser.css("margin-left", "15px");
+              $currentUser.css("padding-top", "1%");
+         
+
+              $tweetTime.text("posted at " + time);
+          
+              $tweetTime.css("float", "right");
+              $tweetTime.css("margin-right", "5px");
+              $tweetTime.appendTo($tweetBox);
+
+              $tweetMessage.text(tweet.message);
+              $tweetMessage.appendTo($tweetBox);
+              $tweetMessage.css("clear", "both");
+              $tweetMessage.css("margin", "0 8% 0 8%");
+          
+              $tweetMessage.css("font-size", "25px");
+          
+              $tweetBox.appendTo($userStreamDiv);
+              $tweetBox.css("padding-bottom", "30px");
+              $tweetBox.css("border-style", "none ridge ridge ridge");
+              $tweetBox.css("background-color", "white");
+          
+          
+
+               index -= 1;
+              }
+            }
+          );
+
+          $tweetTime.text("posted at " + time);
+          
+          $tweetTime.css("float", "right");
+          $tweetTime.css("margin-right", "5px");
+          $tweetTime.appendTo($tweetBox);
+
+          $tweetMessage.text(tweet.message);
+          $tweetMessage.appendTo($tweetBox);
+          $tweetMessage.css("clear", "both");
+          $tweetMessage.css("margin", "0 8% 0 8%");
+          
+          $tweetMessage.css("font-size", "25px");
+          
+          $tweetBox.appendTo($mainStream);
+          $tweetBox.css("padding-bottom", "30px");
+          $tweetBox.css("border-style", "none ridge ridge ridge");
+          $tweetBox.css("background-color", "white");
+          
+          
+
           index -= 1;
         }
 
+        
       });
 
     </script>
+   
   </body>
+  
 </html>
